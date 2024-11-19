@@ -5,22 +5,28 @@ class Calculator:
     def subtract(self, a, b):
         return b - a
 
-    def multiply(self, a, b):
+    def multiply(self, a, b): #(failures=1)
         result = 0
-        for i in range(b+1):
+        for _ in range(b):
             result = self.add(result, a)
         return result
 
     def divide(self, a, b):
+        if b == 0:
+            raise ValueError("Cannot divide by zero")
         result = 0
-        while a > b:
-            a = self.subtract(a, b)
+        negative = (a < 0) ^ (b < 0)  # Determine if result should be negative
+        a, b = abs(a), abs(b)
+
+        while a >= b:
+            a -= b  # Assuming `subtract` is implemented elsewhere
             result += 1
-        return result
+
+        return -result if negative else result
     
-    def modulo(self, a, b):
-        while a <= b:
-            a = a-b
+    def modulo(self, a, b):  # (failures=1)
+        while a >= b:
+            a = a - b
         return a
 
 # Example usage:
